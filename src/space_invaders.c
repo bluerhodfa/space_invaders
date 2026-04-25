@@ -48,6 +48,7 @@ typedef struct
     Vector2 position;
     Vector2 size;
     int direction;
+    int speed;
     bool active;
     int curentFrame;
     float timeFrame;
@@ -62,6 +63,7 @@ typedef struct
     bool active;
 } Shot;
 
+mysterySpaceShip mysteryShip = {0};
 spaceShip ship = {0};
 alien   alien1 = {0};
 alien   alien2 = {0};
@@ -76,6 +78,7 @@ int score = 0;
 int totalScore = 0;
 int highScore = 0;
 int lives = 3;
+bool alive = false;
 
 // Functions
 // drawScreen
@@ -145,15 +148,16 @@ int main(void)
     Sound gameplay = LoadSound("../resources/sounds/music.ogg");
     Sound gameover = LoadSound("../resources/sounds/spaceinvaders.ogg");
     Sound laserFire = LoadSound("../resources/sounds/laser.ogg");
-    Sound explosion = LoadSound("../resources/sounds/explosion.ogg");
+    // Sound explosion = LoadSound("../resources/sounds/explosion.ogg");
 
     SetSoundVolume(menu, 0.5f);
     SetSoundVolume(gameplay, 0.5f);
     SetSoundVolume(gameover, 0.5f);
-
+    double timeLastSpawn = 0.0;
+    int mysteryShipSpawnInterval = GetRandomValue(10, 20);
     PlaySound(menu);
 
-    options currentOption = MENU;
+    //options currentOption = MENU;
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Invaders");
 
@@ -201,6 +205,32 @@ int main(void)
     ship.size = (Vector2){ shipFrames[0].width , shipFrames[0].height };
     ship.position = (Vector2){WINDOW_WIDTH/2 - shipFrames[0].width/2 , WINDOW_HEIGHT-100};  // Start in the middle
 
+    // Mystery ship
+    Texture2D mysteryShipFrames[1];
+
+    mysteryShipFrames[0] = LoadTexture("../resources/images/mystery.png");
+    mysteryShip.frames = mysteryShipFrames;
+    mysteryShip.numFrames = 1;
+    mysteryShip.timeFrame = 0;
+    mysteryShip.speed = 1;
+    mysteryShip.size = (Vector2){ mysteryShipFrames[0].width , mysteryShipFrames[0].height };
+    mysteryShip.position = (Vector2){ WINDOW_WIDTH - 900 , WINDOW_HEIGHT-650};
+       
+
+// get a randow side to start the mystery ship from
+        int side = GetRandomValue(0, 1);
+        if(side == 0) 
+        {
+            mysteryShip.position.x = 25;
+            mysteryShip.speed = 3;
+        } else 
+        {
+            mysteryShip.position.x = GetScreenWidth() - mysteryShipFrames[0].width + 50 ;
+            mysteryShip.speed = -3;
+        }
+            mysteryShipSpawnInterval = GetRandomValue(10, 20);
+            double currentTime = GetTime();
+
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //Texture2D imageGamePlay = LoadTexture("images/universe.jpg");
 
@@ -213,7 +243,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
-        float deltaTime = GetFrameTime();
+       // float deltaTime = GetFrameTime();
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
@@ -235,16 +265,38 @@ int main(void)
 
                 break;
             }
+
+            optionsActual = GAMEPLAY;
         
             drawScreen();
             
-            DrawTexture(shipFrames[0], ship.position.x, ship.position.y, WHITE);
+            alive = true;
+            // set up for the mystery ship 
+            if(currentTime - timeLastSpawn > mysteryShipSpawnInterval) {
+               alive = true;
+               //DrawTexture(mysteryShipFrames[0], mysteryShip.position.x , mysteryShip.position.y , WHITE);
+               //mysteryship.Spawn();
+               timeLastSpawn = GetTime();
+            }
+
+            if(alive) 
+            {
+                mysteryShip.position.x += mysteryShip.speed;
+
+            if(mysteryShip.position.x > GetScreenWidth() - mysteryShipFrames[0].width -25 || mysteryShip.position.x < 25) 
+            {
+                //alive = false;
+            }
+                DrawTexture(mysteryShipFrames[0], mysteryShip.position.x , mysteryShip.position.y , WHITE);
+            }
+
+           // DrawText(TextFormat("mysteryShip.position.x %d mysterySkip.position.y %d",mysteryShip.position.x, mysteryShip.position.y),70 ,50 , 20, YELLOW);
+            //DrawTexture(shipFrames[0], ship.position.x, ship.position.y, WHITE);
 
             int xoffset = 50;
             int yoffset = 55;
             for (int i = 0; i < MAX_ALIENS / 4; i++) 
             {
-
                DrawTexture(alien1Frames[0], alien1.position.x + xoffset, alien1.position.y, WHITE);
                DrawTexture(alien2Frames[0], alien2.position.x + xoffset, alien2.position.y, WHITE);
                DrawTexture(alien3Frames[0], alien3.position.x + xoffset, alien3.position.y, WHITE);
@@ -297,10 +349,11 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-//    void UnloadTexture(alien1);     
-//    void UnloadTexture(alien2);     
-//    void UnloadTexture(alien3);     
-//    void UnloadTexture(player);     
+    void UnloadTexture2D(Texture2D alien1Frames[0]);     
+    void UnloadTexture2D(Texture2D alien2Frames[0]);     
+    void UnloadTexture2D(Texture2D alien3Frames[0]);     
+    void UnloadTexture2D(Texture2D shipFrames[0]);     
+    void UnloadTexture2D(Texture2D mysteryShipFrames[0]);     
     void UnloadSound(Sound menu);
     void UnloadSound(Sound gameplay);
     void UnloadSound(Sound gameover);
