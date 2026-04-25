@@ -291,7 +291,7 @@ int main(void)
             }
 
            // DrawText(TextFormat("mysteryShip.position.x %d mysterySkip.position.y %d",mysteryShip.position.x, mysteryShip.position.y),70 ,50 , 20, YELLOW);
-            //DrawTexture(shipFrames[0], ship.position.x, ship.position.y, WHITE);
+            DrawTexture(shipFrames[0], ship.position.x, ship.position.y, WHITE);
 
             int xoffset = 50;
             int yoffset = 55;
