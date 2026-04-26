@@ -9,8 +9,11 @@ STILL DEVELOPING THIS, NOT PLAYABLE CURRENTLY.
 Installation
 
 Clone the repository 
-cd space_invaders/source
+cd space_invaders/src
 make
+./space_invaders
+
+Tested on MacOS Tahoe 26.3.1
 
 
 Raylib by Ray @  https://github.com/raysan5
