@@ -6,14 +6,14 @@ My cool new space invaders clone in C and Raylib
 
 STILL DEVELOPING THIS, NOT PLAYABLE CURRENTLY.
 
-Installation
+### Installation
 
 Clone the repository 
 cd space_invaders/src
 make
 ./space_invaders
 
-Testing
+### Testing
 Fedora Linux 43 (Workstation Edition) aarch64 (Vmware Fusion virtual machine)
 MacOS Tahoe 26.3.1
 
