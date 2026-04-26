@@ -2,7 +2,16 @@
 
 ### Description
 
-my cool new space invaders clone in C and Raylib
+My cool new space invaders clone in C and Raylib
+
+STILL DEVELOPING THIS, NOT PLAYABLE CURRENTLY.
+
+Installation
+
+Clone the repository 
+cd space_invaders/source
+make
+
 
 Raylib by Ray @  https://github.com/raysan5
 
