@@ -13,7 +13,9 @@ cd space_invaders/src
 make
 ./space_invaders
 
-Tested on MacOS Tahoe 26.3.1
+Testing
+Fedora Linux 43 (Workstation Edition) aarch64 (Vmware Fusion virtual machine)
+MacOS Tahoe 26.3.1
 
 
 Raylib by Ray @  https://github.com/raysan5
