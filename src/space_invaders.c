@@ -217,19 +217,8 @@ int main(void)
     mysteryShip.position = (Vector2){ WINDOW_WIDTH - 900 , WINDOW_HEIGHT-650};
        
 
-// get a randow side to start the mystery ship from
-        int side = GetRandomValue(0, 1);
-        if(side == 0) 
-        {
-            mysteryShip.position.x = 25;
-            mysteryShip.speed = 3;
-        } else 
-        {
-            mysteryShip.position.x = GetScreenWidth() - mysteryShipFrames[0].width + 50 ;
-            mysteryShip.speed = -3;
-        }
-            mysteryShipSpawnInterval = GetRandomValue(10, 20);
-            double currentTime = GetTime();
+    timeLastSpawn = GetTime();
+    double currentTime = 0.0;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //Texture2D imageGamePlay = LoadTexture("images/universe.jpg");
@@ -270,27 +259,43 @@ int main(void)
         
             drawScreen();
             
-            alive = true;
-            // set up for the mystery ship 
-            if(currentTime - timeLastSpawn > mysteryShipSpawnInterval) {
-               alive = true;
-               //DrawTexture(mysteryShipFrames[0], mysteryShip.position.x , mysteryShip.position.y , WHITE);
-               //mysteryship.Spawn();
-               timeLastSpawn = GetTime();
+            //
+            // Draw the mystery ship
+            // The following code will spawn the mystery alien ship randomly from either side of the screen
+            //
+            currentTime = GetTime();
+
+            if (currentTime - timeLastSpawn > mysteryShipSpawnInterval) {
+                alive = true;
+                timeLastSpawn = GetTime();
+                mysteryShipSpawnInterval = GetRandomValue(30, 50);
+                // get a randow side to start the mystery ship from
+                int side = GetRandomValue(0, 1);
+                if(side == 0) 
+                {
+                    mysteryShip.position.x = 25;
+                    mysteryShip.speed = 3;
+                } else 
+                {
+                    mysteryShip.position.x = GetScreenWidth() - mysteryShipFrames[0].width + 50 ;
+                    mysteryShip.speed = - 3;
+                }
+
             }
 
-            if(alive) 
-            {
+            if (alive) {
                 mysteryShip.position.x += mysteryShip.speed;
 
-            if(mysteryShip.position.x > GetScreenWidth() - mysteryShipFrames[0].width -25 || mysteryShip.position.x < 25) 
-            {
-                //alive = false;
-            }
+                if (mysteryShip.position.x > GetScreenWidth() + mysteryShip.size.x) {
+                    alive = false;
+                    //mysteryShip.position.x = - 50;
+                }
                 DrawTexture(mysteryShipFrames[0], mysteryShip.position.x , mysteryShip.position.y , WHITE);
             }
+            //
+            // End of code to draw the mystery ship
+            //
 
-           // DrawText(TextFormat("mysteryShip.position.x %d mysterySkip.position.y %d",mysteryShip.position.x, mysteryShip.position.y),70 ,50 , 20, YELLOW);
             DrawTexture(shipFrames[0], ship.position.x, ship.position.y, WHITE);
 
             int xoffset = 50;
