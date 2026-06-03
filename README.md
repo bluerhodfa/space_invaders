@@ -35,7 +35,9 @@ Keyboard/Mouse:
   
 ### Screenshots
 
-_TODO: Show your game to the world, animated GIFs recommended!._
+Current state of project
+
+![til](https://raw.githubusercontent.com/blurhodfa/space_invaders/resources/gifs/WIP.gif)
 
 ### Developers
 
