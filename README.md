@@ -37,7 +37,7 @@ Keyboard/Mouse:
 
 Current state of project
 
-![til](https://raw.githubusercontent.com/blurhodfa/space_invaders/resources/gifs/WIP.gif)
+![til](https://github.com/bluerhodfa/space_invaders/blob/main/resources/gifs/WIP.gif)
 
 ### Developers
 
